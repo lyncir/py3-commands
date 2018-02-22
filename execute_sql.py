@@ -41,7 +41,7 @@ def printt(my_dict, col_list=None):
     my_list = [col_list]
 
     for item in my_dict:
-        my_list.append([str(item[col] or '') for col in col_list])
+        my_list.append([str(item[col]) for col in col_list])
 
     col_size = [max(map(len, col)) for col in zip(*my_list)]
     format_str = ' | '.join(["{{:<{}}}".format(i) for i in col_size])
