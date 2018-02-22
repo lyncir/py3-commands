@@ -23,7 +23,7 @@ async def raw_sql(filename):
                 if line.strip():
                     lines.append(line.strip())
 
-    return "".join(lines)
+    return " ".join(lines)
 
 
 def printt(my_dict, col_list=None):
