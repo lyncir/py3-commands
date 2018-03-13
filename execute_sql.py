@@ -52,7 +52,7 @@ def printt(my_dict, col_list=None):
         print(format_str.format(*item))
 
 
-async def execute_sql(loop, db_type, db_kwargs, sql_file):
+async def execute_sql(loop, db_type, db_kwargs, sql):
     """
     execute sql
 
@@ -90,9 +90,9 @@ async def execute_sql(loop, db_type, db_kwargs, sql_file):
         raise Exception("Database type not specified! Must select one of: postgres, mysql")
 
     cur = await conn.cursor()
-    sql = await raw_sql(sql_file)
     await cur.execute(sql)
 
+    results = []
     if db_type == 'mysql':
 
         # multi sql
@@ -100,7 +100,7 @@ async def execute_sql(loop, db_type, db_kwargs, sql_file):
         while more:
             data = await cur.fetchall()
             if data:
-                printt(data)
+                results.append(data)
             more = await cur.nextset()
 
         # close
@@ -110,18 +110,9 @@ async def execute_sql(loop, db_type, db_kwargs, sql_file):
     elif db_type == "postgres":
         data = await cur.fetchall()
         if data:
-            printt(data)
+            results.append(data)
 
         # close
         await conn.close()
 
-
-if __name__ == '__main__':
-    db_kwargs = {"hostname": '127.0.0.1',
-                 "port": 3306,
-                 "username": 'root',
-                 "password": '',
-                 "dbname": 'test'}
-
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(execute_sql(loop, 'mysql', db_kwargs, 'raw_my.sql'))
+    return results
