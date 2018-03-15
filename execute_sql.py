@@ -74,7 +74,7 @@ async def execute_sql(loop, db_type, db_kwargs, sql):
                                    password=password,
                                    database=dbname,
                                    enable_hstore=False,
-                                   cursor_factory=psycopg2.extras.DictCursor,
+                                   cursor_factory=psycopg2.extras.RealDictCursor,
                                    loop=loop)
 
     elif db_type == 'mysql':
