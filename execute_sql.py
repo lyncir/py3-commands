@@ -84,6 +84,7 @@ async def execute_sql(loop, db_type, db_kwargs, sql):
                                       password=password,
                                       db=dbname,
                                       cursorclass=aiomysql.DictCursor,
+                                      charset='utf8',
                                       loop=loop)
 
     else:
